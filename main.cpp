@@ -27,7 +27,21 @@ Vector add(const Vector &a, const Vector &b) {
 
 double sigmoid(double x) { return 1 / (1 + std::exp(-x)); }
 
-double softmax(const Vector &v) {}
+Vector softmax(const Vector &v) {
+  Vector result;
+
+  double sum = 0;
+
+  for (double num : v) {
+    sum += std::exp(num);
+  }
+
+  for (int i = 0; i < v.size(); i++) {
+    result.push_back(std::exp(v[i]) / sum);
+  }
+
+  return result;
+}
 
 Vector applySigmoid(const Vector &v) {
   Vector u;
@@ -35,6 +49,25 @@ Vector applySigmoid(const Vector &v) {
     u.push_back(sigmoid(d));
   }
   return u;
+}
+
+double crossEntropyLoss(const Vector &v) {
+  double cost = 0;
+
+  for (double num : v) {
+    cost -= (num * std::log10(num));
+  }
+
+  return cost;
+}
+
+Matrix transpose(const Matrix &m) {
+  Matrix result;
+
+  for (int i = 0; i < m.size(); i++) {
+    for (int k = 0; k < m[i].size(); k++) {
+    }
+  }
 }
 
 class NeuralNetwork {
@@ -58,7 +91,7 @@ Vector NeuralNetwork::forward(const Vector &input) {
   // output
   Vector z2 = matVecMultiply(W2, a1);
   z2 = add(z2, b2);
-  Vector a2 = applySigmoid(z2);
+  Vector a2 = softmax(z2);
 
   return a2;
 }
