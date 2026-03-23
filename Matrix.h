@@ -16,6 +16,9 @@ public:
   double &operator[](int index);
   const double &operator[](int index) const;
 
+  Vector multiply(double x) const;
+  Vector multiply(const Vector &v) const;
+
   void print() const;
 };
 
@@ -35,8 +38,12 @@ public:
 
   Matrix transpose() const;
   Vector multiply(const Vector &v) const;
+  Matrix multiply(double x) const;
 
   void print() const;
 };
+
+Matrix outerProduct(const Vector &column, const Vector &row);
+Vector hadamard(const Vector &a, const Vector &b);
 
 #endif

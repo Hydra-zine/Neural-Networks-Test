@@ -11,6 +11,26 @@ double &Vector::operator[](int index) { return data[index]; }
 
 const double &Vector::operator[](int index) const { return data[index]; }
 
+Vector Vector::multiply(double x) const {
+  Vector result(size());
+
+  for (int i = 0; i < size(); i++) {
+    result[i] = data[i] * x;
+  }
+
+  return result;
+}
+
+Vector Vector::multiply(const Vector &v) const {
+  Vector result(size());
+
+  for (int i = 0; i < size(); i++) {
+    result[i] = data[i] * v[i];
+  }
+
+  return result;
+}
+
 void Vector::print() const {
   for (double n : data) {
     std::cout << n << " ";
@@ -54,6 +74,40 @@ Vector Matrix::multiply(const Vector &x) const {
     for (int j = 0; j < x.size(); j++) {
       result[i] += data[i][j] * x[j];
     }
+  }
+
+  return result;
+}
+
+Matrix Matrix::multiply(double x) const {
+  Matrix result(rows(), cols());
+
+  for (int i = 0; i < rows(); i++) {
+    for (int k = 0; k < cols(); k++) {
+      result[i][k] = data[i][k] * x;
+    }
+  }
+
+  return result;
+}
+
+Matrix outerProduct(const Vector &column, const Vector &row) {
+  Matrix result(row.size(), column.size());
+
+  for (int i = 0; i < row.size(); i++) {
+    for (int k = 0; k < column.size(); k++) {
+      result[i][k] = row[i] * column[k];
+    }
+  }
+
+  return result;
+}
+
+Vector hadamard(const Vector &a, const Vector &b) {
+  Vector result(a.size());
+
+  for (int i = 0; i < a.size(); i++) {
+    result[i] = a[i] * b[i];
   }
 
   return result;
